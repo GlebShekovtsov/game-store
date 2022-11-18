@@ -44,7 +44,12 @@ if (isset($_GET['idbuygame'])) {
                     <nav class="header__nav nav">
                         <ul class="nav__list">
                             <li class="nav__item"><a href="index.php" class="nav__link">Магазин</a></li>
-                            <li class="nav__item"><a href="library.php" class="nav__link">Библиотека</a></li>
+                            <?php
+                            if (isset($_SESSION["id"])) {
+                                echo "<li class='nav__item'><a href='library.php' class='nav__link'>Библиотека</a></li>";
+                            } else {
+                            }
+                            ?>
                             <li class="nav__item"><a href="#" class="nav__link">Поддержка</a></li>
                         </ul>
                     </nav>

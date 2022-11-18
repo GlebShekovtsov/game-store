@@ -274,6 +274,7 @@ img {
 }
 
 .game__side-info {
+    
     width: 35%;
 }
 
@@ -287,7 +288,7 @@ img {
 }
 
 .game__price-wrapper {
-    padding: 15px 25px;
+    padding: 30px 25px;
     position: relative;
 }
 
@@ -789,6 +790,8 @@ img {
 
 .game__side-info {
     padding: 15px;
+    padding-top: 0;
+    padding-right: 0;
 }
 
 .side-info__qualities {
@@ -822,7 +825,7 @@ img {
 }
 
 .game__price-wrapper {
-    margin-bottom: 20px;
+    margin-bottom: 35px;
     background-color: #4b5a68;
     border-radius: 4px;
 }
@@ -873,4 +876,67 @@ img {
 
 .login__link {
     margin-right: 5px;
+}
+
+
+.review__label {
+    margin: 0;
+    margin-bottom: 5px;
+}
+
+
+.review__wrapper {
+    padding: 15px;
+}
+
+.review__descr {
+    margin: 0;
+    font-size: 13px;
+}
+
+.review__descr {
+    margin-bottom: 10px;
+}
+
+.form__textarea {
+    padding: 10px;
+    background-color: #222b35;
+    border-color: #131c27;
+    color: #cbd4d8;
+}
+/* 
+.review__form {
+    display: flex;
+    justify-content: flex-end;
+} */
+
+
+.review__wrapper {
+    background-color: #4b5a68;
+}
+
+
+.form__textarea {
+    margin-bottom: 10px;
+    max-width: 660px;
+    min-width: 660px;
+    min-height: 180px;
+}
+
+
+.game__review {
+    margin-bottom: 15px;
+}
+
+.form__select {
+    background-color: #222b35;
+    border-color: #131c27;
+    color: #cbd4d8;
+}
+
+
+.form__wrapper {
+    display: flex;
+    gap: 0.5em;
+    align-items: center;
 }

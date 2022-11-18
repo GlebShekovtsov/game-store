@@ -55,7 +55,7 @@ if (isset($_GET['search_string'])) {
         include_once 'includes/header.php'
         ?>
         <section class="main__section promo">
-            
+
             <div class="container promo__container">
                 <div class="promo__swiper popular">
 
@@ -90,14 +90,21 @@ if (isset($_GET['search_string'])) {
                             WHERE game_name LIKE '$searchstring%'";
                             $gameSelectSearchResult = mysqli_query($connect, $gameSelectSearch);
                         } else {
-                            $gameByGenreSelect = "SELECT * FROM `product`
-                            JOIN game_genre ON game_genre.id_game = product.id
-                            JOIN genres ON genres.id = game_genre.id_genre
-                            JOIN game_subgenres ON game_subgenres.id_game = product.id
-                            JOIN subgenres ON subgenres.id = game_subgenres.id_subgenre 
-                            WHERE $c";
-                            $gameByGenreSelectResult = mysqli_query($connect, $gameByGenreSelect);
-                            $gameByGenreSelectArray = mysqli_fetch_array($gameByGenreSelectResult);
+                            if (isset($_GET['genres'])) {
+                                $gameByGenreSelect = "SELECT * FROM `product`
+                                JOIN game_genre ON game_genre.id_game = product.id
+                                JOIN genres ON genres.id = game_genre.id_genre
+                                WHERE $c";
+                                $gameByGenreSelectResult = mysqli_query($connect, $gameByGenreSelect);
+                                $gameByGenreSelectArray = mysqli_fetch_array($gameByGenreSelectResult);
+                            } else if (isset($_GET['subgenres'])) {
+                                $gameByGenreSelect = "SELECT * FROM `product`
+                                JOIN game_subgenres ON game_subgenres.id_game = product.id
+                                JOIN subgenres ON subgenres.id = game_subgenres.id_subgenre
+                                WHERE $c";
+                                $gameByGenreSelectResult = mysqli_query($connect, $gameByGenreSelect);
+                                $gameByGenreSelectArray = mysqli_fetch_array($gameByGenreSelectResult);
+                            }
                         }
 
                         $platformSelect = "SELECT * FROM game_platform, platforms
@@ -144,32 +151,34 @@ if (isset($_GET['search_string'])) {
                                 }
                             } else {
                                 foreach ($gameSelectResult as $gameRow) {
-                                    if ($gameRow['id'] == $gameByGenreSelectArray['id_game']) {
-                                        echo "<a href='product.php?gameid=" . $gameRow['id'] . "'>";
-                                        echo "<div class='games__item game'>";
-                                        echo "<img src='img/" . $gameRow['capsule_image'] . "' alt='' class='game__image'>";
-                                        echo "<div class='game__tags'>
-                                            <h3 class='game__name'>" . $gameRow['game_name'] . "</h3>";
-                                        echo "<ul class='game__list platforms'>";
-                                        foreach ($platformSelectResult as $platformRow) {
-                                            if ($platformRow['id_game'] == $gameRow['id']) {
-                                                echo "<li class='platforms__item'>" . $platformRow['name'] . "</li>";
+                                    foreach ($gameByGenreSelectResult as $genreRow) {
+                                        if ($gameRow['id'] == $genreRow['id_game']) {
+                                            echo "<a href='product.php?gameid=" . $gameRow['id'] . "'>";
+                                            echo "<div class='games__item game'>";
+                                            echo "<img src='img/" . $gameRow['capsule_image'] . "' alt='' class='game__image'>";
+                                            echo "<div class='game__tags'>
+                                                <h3 class='game__name'>" . $gameRow['game_name'] . "</h3>";
+                                            echo "<ul class='game__list platforms'>";
+                                            foreach ($platformSelectResult as $platformRow) {
+                                                if ($platformRow['id_game'] == $gameRow['id']) {
+                                                    echo "<li class='platforms__item'>" . $platformRow['name'] . "</li>";
+                                                }
                                             }
-                                        }
-                                        echo "</ul>";
-                                        echo "<ul class='game__list labels'>";
-                                        foreach ($labelSelectResult as $labelRow) {
-                                            if ($labelRow['id_game'] == $gameRow['id']) {
-                                                echo "<li class='platforms__item'>" . $labelRow['name'] . "</li>";
+                                            echo "</ul>";
+                                            echo "<ul class='game__list labels'>";
+                                            foreach ($labelSelectResult as $labelRow) {
+                                                if ($labelRow['id_game'] == $gameRow['id']) {
+                                                    echo "<li class='platforms__item'>" . $labelRow['name'] . "</li>";
+                                                }
                                             }
+                                            echo "</ul>";
+                                            echo "</div>";
+                                            echo "<div class='game__price price'>";
+                                            echo "<span class='price__span'>" . $gameRow['price'] . " руб." . "</span>";
+                                            echo "</div>";
+                                            echo "</div>";
+                                            echo "</a>";
                                         }
-                                        echo "</ul>";
-                                        echo "</div>";
-                                        echo "<div class='game__price price'>";
-                                        echo "<span class='price__span'>" . $gameRow['price'] . " руб." . "</span>";
-                                        echo "</div>";
-                                        echo "</div>";
-                                        echo "</a>";
                                     }
                                 }
                             }

@@ -200,28 +200,74 @@ if (isset($_GET['gameid'])) {
                             </div>
                         </div>
                     </div>
+                    <!-- <div class="game__review review">
+                        <div class="review__wrapper">
+                            <h3 class="review__label">Напишите отзыв на <?php //echo $gameIdRow['game_name'] ?></h3>
+                            <p class="review__descr">
+                                Пожалуйста, опишите, что вам понравилось или
+                                не понравилось в этой игре и рекомендуете ли
+                                вы её другим
+                            </p>
+
+                            <form action="product.php" class="review__form form">
+                                <textarea name="review_text" id="form__textarea" class="form__textarea" cols="80" rows="10"></textarea>
+                                <div class="form__wrapper select">
+                                    <label class="select__label" for="form__select">Выберите оценку</label>
+                                    <input type="hidden" name="gameid" value="<?php //echo $gameIdRow['id'] ?>">
+                                    <select name="grade" id="form__select" class="form__select">
+                                        <option value="0">0</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                        <option value="9">9</option>
+                                        <option value="10">10</option>
+                                    </select>
+                                    <input type="submit" class="btn form__button" value="Отправить">
+                                </div>
+                            </form>
+                        </div>
+                    </div> -->
                     <?php
+                    if (isset($_GET['grade'])) {
+                        $grade = $_GET['grade'];
+                        $review_text = $_GET['review_text'];
+                        $reviewInsert = "INSERT INTO `reviews` (id_user, id_game, text, grade) VALUES ('$user', '$gameid', '$review_text', '$grade')";
+
+                        if ($connect->query($reviewInsert)) {
+                    ?>
+
+                        <?php
+                        } else {
+                            echo "<p>" . "Ошибка:" . $connect->error . "</p>";
+                        }
+                    }
+
                     if (isset($_SESSION['id'])) {
                         foreach ($librarySelectResult as $libraryRow) {
-                        }
-                    ?>
-                        <div class="game__wishlist wishlist">
-                            <?php
 
-                            if ($libraryRow['id_game'] == $gameIdRow['id']) {
-                            } else {
-                                echo "<a href='wishlist.php?gameid=" . $gameIdRow['id'] . "' class='wishlist__link'>В список желаемого</a>";
-                            }
-                            ?>
-                        </div>
-                        <div class="game__full-info">
-                            <div class="game__main-info">
-                                <div class="game__price-wrapper price">
-                                    <h2 class="price__header">Купить <?php echo $gameIdRow['game_name'] ?></h2>
-                                    <div class="price__block">
-                                        <span class="price__span">
-                                            <?php echo $gameIdRow['price'] . " руб."; ?>
-                                        </span>
+                        ?>
+                            <div class="game__wishlist wishlist">
+                                <?php
+
+                                if ($libraryRow['id_game'] == $gameIdRow['id']) {
+                                } else {
+                                    echo "<a href='wishlist.php?gameid=" . $gameIdRow['id'] . "' class='wishlist__link'>В список желаемого</a>";
+                                }
+                                ?>
+                            </div>
+                            <div class="game__full-info">
+                                <div class="game__main-info">
+                                    <div class="game__price-wrapper price">
+                                        <h2 class="price__header">Купить <?php echo $gameIdRow['game_name'] ?></h2>
+                                        <div class="price__block">
+                                            <span class="price__span">
+                                                <?php echo $gameIdRow['price'] . " руб."; ?>
+                                            </span>
                                     <?php
                                     if ($libraryRow['id_game'] == $gameIdRow['id'] && isset($_SESSION['id'])) {
                                         echo "Игра уже в библиотеке";
@@ -229,296 +275,297 @@ if (isset($_GET['gameid'])) {
                                         echo "<a href='cart.php?gameid= " . $gameIdRow['id'] . "' class='price__link'>" . "В корзину" . "</a>";
                                     }
                                 }
+                            }
                                     ?>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="game__edition-wrapper edition">
-                                    <?php
-                                    foreach ($editionSelectResult as $editionRow) {
-                                    ?>
-                                        <h2 class="edition__header">Купить <?php echo $editionRow['name'] ?></h2>
-                                        <div class="edition__block">
-                                            <p class="edition__include">Включенные товары: </p>
-                                            <ul class="edition__list">
-                                                <?php
-                                                foreach ($editionContentSelectResult as $contentRow) {
-                                                    if ($contentRow['id_game'] == $gameIdRow['id'] && isset($_SESSION['id'])) {
-                                                        echo "<li class='edition__item'>" . $contentRow['game_name'] . "</li>";
+                                    <div class="game__edition-wrapper edition">
+                                        <?php
+                                        foreach ($editionSelectResult as $editionRow) {
+                                        ?>
+                                            <h2 class="edition__header">Купить <?php echo $editionRow['name'] ?></h2>
+                                            <div class="edition__block">
+                                                <p class="edition__include">Включенные товары: </p>
+                                                <ul class="edition__list">
+                                                    <?php
+                                                    foreach ($editionContentSelectResult as $contentRow) {
+                                                        if ($contentRow['id_game'] == $gameIdRow['id'] && isset($_SESSION['id'])) {
+                                                            echo "<li class='edition__item'>" . $contentRow['game_name'] . "</li>";
+                                                        }
                                                     }
+                                                    ?>
+
+                                                </ul>
+                                            </div>
+                                            <div class="price__block">
+                                                <span class="price__span">
+                                                    <?php echo $editionRow['price'] . " руб."; ?>
+                                                </span>
+                                                <a href="cart.php?editionid=<?php echo $editionRow['id'] ?>" class="price__link">В корзину</a>
+
+                                            </div>
+
+                                        <?php
+                                        }
+                                        ?>
+                                    </div>
+                                    <div class="game__dlc-block dlc">
+                                        <div class="dlc__about-wrapper">
+                                            <?php
+                                            foreach ($dlcSelectResut as $dlcRow) {
+                                            ?>
+                                                <h3 class="dlc__label">КОНТЕНТ ДЛЯ ЭТОЙ ИГРЫ</h3>
+                                                <span class="dlc__show-all">Просмотреть все (<?php echo $dlcRow['dlc_count'] ?>)</span>
+                                        </div>
+                                        <ul class="dlc__list">
+                                            <?
+                                                echo "<li class='dlc__item'>";
+                                                echo "<a href='product.php?gameid=" . $dlcRow['id'] . "' class='dlc__name'>" . $dlcRow['game_name'] . "</a>";
+                                                echo "<span class='dlc__price'>" . $dlcRow['price'] . " руб. " . "</span>";
+                                                echo "</li>";
+                                            ?>
+                                        </ul>
+                                        <div class="dlc__price-wrapper">
+                                        <?php
+                                            } ?>
+                                        </div>
+                                    </div>
+                                    <div class="game__descr-block">
+                                        <h3 class="descr__label">ОБ ЭТОЙ ИГРЕ</h3>
+                                        <div class="descr__wrapper">
+                                            <?php
+                                            echo $gameIdRow['full_descr'];
+                                            ?>
+                                        </div>
+                                    </div>
+
+                                    <div class="game__sys-req sys-req">
+                                        <h3 class="sys-req__label">СИСТЕМНЫЕ ТРЕБОВАНИЯ</h3>
+                                        <div class="sys-req__wrapper">
+                                            <div class="sys-req__min min-req">
+                                                <span class="min-req__span">Минимальные:</span>
+                                                <?php foreach ($minSysReqSelectResult as $minRow) {
+                                                ?>
+                                                    <ul class="min-req__list">
+                                                        <li class="min-req__item">
+                                                            <span class="min-req__name">ОС: </span>
+                                                            <?php echo $minRow['os'] ?>
+                                                        </li>
+                                                        <li class="min-req__item">
+                                                            <span class="min-req__name">Процессор: </span>
+                                                            <?php echo $minRow['processor'] ?>
+                                                        </li>
+                                                        <li class="min-req__item">
+                                                            <span class="min-req__name">Оперативная память: </span>
+                                                            <?php echo $minRow['ram'] ?>
+                                                        </li>
+                                                        <li class="min-req__item">
+                                                            <span class="min-req__name">Видеокарта: </span>
+                                                            <?php echo $minRow['graphics'] ?>
+                                                        </li>
+                                                        <li class="min-req__item">
+                                                            <span class="min-req__name">DirectX: </span>
+                                                            <?php echo $minRow['directX'] ?>
+                                                        </li>
+                                                        <li class="min-req__item">
+                                                            <span class="min-req__name">Сеть: </span>
+                                                            <?php echo $minRow['web'] ?>
+                                                        </li>
+                                                        <li class="min-req__item">
+                                                            <span class="min-req__name">Место на диске: </span>
+                                                            <?php echo $minRow['hdd'] ?>
+                                                        </li>
+                                                        <li class="min-req__item">
+                                                            <span class="min-req__name">Звуковая карта: </span>
+                                                            <?php echo $minRow['sound'] ?>
+                                                        </li>
+                                                        <li class="min-req__item">
+                                                            <span class="min-req__name">Дополнительно: </span>
+                                                            <?php echo $minRow['comments'] ?>
+                                                        </li>
+                                                    <?php
+                                                }
+                                                    ?>
+                                                    </ul>
+                                            </div>
+                                            <div class="sys-req__rec rec-req">
+                                                <span class="rec-req__span">Рекомендованные:</span>
+                                                <?php foreach ($recSysReqSelectResult as $recRow) {
+                                                ?>
+                                                    <ul class="rec-req__list">
+                                                        <li class="rec-req__item">
+                                                            <span class="rec-req__name">ОС: </span>
+                                                            <?php echo $recRow['os'] ?>
+                                                        </li>
+                                                        <li class="rec-req__item">
+                                                            <span class="rec-req__name">Процессор: </span>
+                                                            <?php echo $recRow['processor'] ?>
+                                                        </li>
+                                                        <li class="rec-req__item">
+                                                            <span class="rec-req__name">Оперативная память: </span>
+                                                            <?php echo $recRow['ram'] ?>
+                                                        </li>
+                                                        <li class="rec-req__item">
+                                                            <span class="rec-req__name">Видеокарта: </span>
+                                                            <?php echo $recRow['graphics'] ?>
+                                                        </li>
+                                                        <li class="rec-req__item">
+                                                            <span class="rec-req__name">DirectX: </span>
+                                                            <?php echo $recRow['directX'] ?>
+                                                        </li>
+                                                        <li class="rec-req__item">
+                                                            <span class="rec-req__name">Сеть: </span>
+                                                            <?php echo $recRow['web'] ?>
+                                                        </li>
+                                                        <li class="rec-req__item">
+                                                            <span class="rec-req__name">Место на диске: </span>
+                                                            <?php echo $recRow['hdd'] ?>
+                                                        </li>
+                                                        <li class="rec-req__item">
+                                                            <span class="rec-req__name">Звуковая карта: </span>
+                                                            <?php echo $recRow['sound'] ?>
+                                                        </li>
+                                                        <li class="rec-req__item">
+                                                            <span class="rec-req__name">Дополнительно: </span>
+                                                            <?php echo $recRow['comments'] ?>
+                                                        </li>
+                                                    </ul>
+                                                <?php
                                                 }
                                                 ?>
-
-                                            </ul>
+                                            </div>
                                         </div>
-                                        <div class="price__block">
-                                            <span class="price__span">
-                                                <?php echo $editionRow['price'] . " руб."; ?>
-                                            </span>
-                                            <a href="cart.php?editionid=<?php echo $editionRow['id'] ?>" class="price__link">В корзину</a>
-
-                                        </div>
-
-                                    <?php
-                                    }
-                                    ?>
-                                </div>
-                                <div class="game__dlc-block dlc">
-                                    <div class="dlc__about-wrapper">
-                                        <?php
-                                        foreach ($dlcSelectResut as $dlcRow) {
-                                        ?>
-                                            <h3 class="dlc__label">КОНТЕНТ ДЛЯ ЭТОЙ ИГРЫ</h3>
-                                            <span class="dlc__show-all">Просмотреть все (<?php echo $dlcRow['dlc_count'] ?>)</span>
                                     </div>
-                                    <ul class="dlc__list">
-                                        <?
-                                            echo "<li class='dlc__item'>";
-                                            echo "<a href='product.php?gameid=" . $dlcRow['id'] . "' class='dlc__name'>" . $dlcRow['game_name'] . "</a>";
-                                            echo "<span class='dlc__price'>" . $dlcRow['price'] . " руб. " . "</span>";
-                                            echo "</li>";
-                                        ?>
-                                    </ul>
-                                    <div class="dlc__price-wrapper">
-                                    <?php
-                                        } ?>
-                                    </div>
-                                </div>
-                                <div class="game__descr-block">
-                                    <h3 class="descr__label">ОБ ЭТОЙ ИГРЕ</h3>
-                                    <div class="descr__wrapper">
-                                        <?php
-                                        echo $gameIdRow['full_descr'];
-                                        ?>
-                                    </div>
-                                </div>
-
-                                <div class="game__sys-req sys-req">
-                                    <h3 class="sys-req__label">СИСТЕМНЫЕ ТРЕБОВАНИЯ</h3>
-                                    <div class="sys-req__wrapper">
-                                        <div class="sys-req__min min-req">
-                                            <span class="min-req__span">Минимальные:</span>
-                                            <?php foreach ($minSysReqSelectResult as $minRow) {
-                                            ?>
-                                                <ul class="min-req__list">
-                                                    <li class="min-req__item">
-                                                        <span class="min-req__name">ОС: </span>
-                                                        <?php echo $minRow['os'] ?>
-                                                    </li>
-                                                    <li class="min-req__item">
-                                                        <span class="min-req__name">Процессор: </span>
-                                                        <?php echo $minRow['processor'] ?>
-                                                    </li>
-                                                    <li class="min-req__item">
-                                                        <span class="min-req__name">Оперативная память: </span>
-                                                        <?php echo $minRow['ram'] ?>
-                                                    </li>
-                                                    <li class="min-req__item">
-                                                        <span class="min-req__name">Видеокарта: </span>
-                                                        <?php echo $minRow['graphics'] ?>
-                                                    </li>
-                                                    <li class="min-req__item">
-                                                        <span class="min-req__name">DirectX: </span>
-                                                        <?php echo $minRow['directX'] ?>
-                                                    </li>
-                                                    <li class="min-req__item">
-                                                        <span class="min-req__name">Сеть: </span>
-                                                        <?php echo $minRow['web'] ?>
-                                                    </li>
-                                                    <li class="min-req__item">
-                                                        <span class="min-req__name">Место на диске: </span>
-                                                        <?php echo $minRow['hdd'] ?>
-                                                    </li>
-                                                    <li class="min-req__item">
-                                                        <span class="min-req__name">Звуковая карта: </span>
-                                                        <?php echo $minRow['sound'] ?>
-                                                    </li>
-                                                    <li class="min-req__item">
-                                                        <span class="min-req__name">Дополнительно: </span>
-                                                        <?php echo $minRow['comments'] ?>
-                                                    </li>
-                                                <?php
-                                            }
-                                                ?>
-                                                </ul>
-                                        </div>
-                                        <div class="sys-req__rec rec-req">
-                                            <span class="rec-req__span">Рекомендованные:</span>
-                                            <?php foreach ($recSysReqSelectResult as $recRow) {
-                                            ?>
-                                                <ul class="rec-req__list">
-                                                    <li class="rec-req__item">
-                                                        <span class="rec-req__name">ОС: </span>
-                                                        <?php echo $recRow['os'] ?>
-                                                    </li>
-                                                    <li class="rec-req__item">
-                                                        <span class="rec-req__name">Процессор: </span>
-                                                        <?php echo $recRow['processor'] ?>
-                                                    </li>
-                                                    <li class="rec-req__item">
-                                                        <span class="rec-req__name">Оперативная память: </span>
-                                                        <?php echo $recRow['ram'] ?>
-                                                    </li>
-                                                    <li class="rec-req__item">
-                                                        <span class="rec-req__name">Видеокарта: </span>
-                                                        <?php echo $recRow['graphics'] ?>
-                                                    </li>
-                                                    <li class="rec-req__item">
-                                                        <span class="rec-req__name">DirectX: </span>
-                                                        <?php echo $recRow['directX'] ?>
-                                                    </li>
-                                                    <li class="rec-req__item">
-                                                        <span class="rec-req__name">Сеть: </span>
-                                                        <?php echo $recRow['web'] ?>
-                                                    </li>
-                                                    <li class="rec-req__item">
-                                                        <span class="rec-req__name">Место на диске: </span>
-                                                        <?php echo $recRow['hdd'] ?>
-                                                    </li>
-                                                    <li class="rec-req__item">
-                                                        <span class="rec-req__name">Звуковая карта: </span>
-                                                        <?php echo $recRow['sound'] ?>
-                                                    </li>
-                                                    <li class="rec-req__item">
-                                                        <span class="rec-req__name">Дополнительно: </span>
-                                                        <?php echo $recRow['comments'] ?>
-                                                    </li>
-                                                </ul>
+                                    <div class="game__similar similar">
+                                        <h3 class="similar__label">ПОХОЖИЕ ТОВАРЫ</h3>
+                                        <ul class="similar__list">
                                             <?php
+                                            foreach ($similarSelectResult as $similarRow) {
+                                                echo "<a href='product.php?gameid=" . $similarRow['id_similar'] . "'>";
+                                                echo "<li class='similar__item'>";
+                                                echo "<img class='similar__image' src='img/" . $similarRow['capsule_image'] . "' alt=''>";
+                                                echo "<span class='similar__game-name'>" . $similarRow['game_name'] . "</span>";
+                                                echo "<span class='similar__game-price'>" . $similarRow['price'] . " руб." . "</span>";
+                                                echo "</li>";
+                                                echo "</a>";
                                             }
                                             ?>
-                                        </div>
+                                        </ul>
                                     </div>
                                 </div>
-                                <div class="game__similar similar">
-                                    <h3 class="similar__label">ПОХОЖИЕ ТОВАРЫ</h3>
-                                    <ul class="similar__list">
-                                        <?php
-                                        foreach ($similarSelectResult as $similarRow) {
-                                            echo "<a href='product.php?gameid=" . $similarRow['id_similar'] . "'>";
-                                            echo "<li class='similar__item'>";
-                                            echo "<img class='similar__image' src='img/" . $similarRow['capsule_image'] . "' alt=''>";
-                                            echo "<span class='similar__game-name'>" . $similarRow['game_name'] . "</span>";
-                                            echo "<span class='similar__game-price'>" . $similarRow['price'] . " руб." . "</span>";
-                                            echo "</li>";
-                                            echo "</a>";
-                                        }
-                                        ?>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="game__side-info side-info">
-                                <div class="side-info__qualities">
-                                    <ul class="side-info__list">
-                                        <?php
-                                        foreach ($qualSelectResult as $qualRow) {
-                                            echo "<li class='side-info__item'>";
-                                            echo "<img src='img/" . $qualRow['icon'] . "' сlass='side-info__image' alt=''>";
-                                            echo "<span class='side-info__span'>" . $qualRow['name'] . "</span>";
-                                            echo "</li>";
-                                        }
-                                        ?>
-                                    </ul>
-                                </div>
-
-                                <div class="side-info__language language">
-                                    <div class="language__label">Языки:</div>
-                                    <table class="language__table">
-                                        <thead class="language__thead">
-                                            <tr class="language__trow">
-                                                <th class="language__theadrow"><br></th>
-                                                <th class="language__theadrow">Интерфейс</th>
-                                                <th class="language__theadrow">Озвучка</th>
-                                                <th class="language__theadrow">Субтитры</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody class="language__tbody">
+                                <div class="game__side-info side-info">
+                                    <div class="side-info__qualities">
+                                        <ul class="side-info__list">
                                             <?php
-                                            foreach ($languageSelectResult as $languageRow) {
-                                                echo "<tr class='language__trow'>";
-                                                echo "<td class='language__tdfirst'>" . $languageRow['name'] . "</td>";
-
-                                                $interfacemark = $languageRow['interface'] == true ? "✔" : "&nbsp;";
-                                                echo "<td class='language__td'>" . $interfacemark . "</td>";
-
-                                                $voicemark = $languageRow['voice'] == true ? "✔" : "&nbsp;";
-                                                echo "<td class='language__td'>" . $voicemark . "</td>";
-
-                                                $subtitlemark = $languageRow['subtitles'] == true ? "✔" : "&nbsp;";
-                                                echo "<td class='language__td'>" . $subtitlemark . "</td>";
-                                                echo "</tr>";
-                                            }
-                                            ?>
-                                        </tbody>
-                                    </table>
-                                </div>
-
-                                <div class="side-info__achievements achievements">
-                                    <div class="achievements_label">Достижения: </div>
-                                    <p class="header__label"></p>
-                                    <div class="achiements__wrapper">
-                                        <ul class="achievements__list">
-                                            <?php
-                                            foreach ($achievementSelectResult as $achievementRow) {
-                                                echo "<li class='achievements__item'>";
-                                                echo "<img src='img/" . $achievementRow['picture'] . "' alt='' class='achievements__image'>";
+                                            foreach ($qualSelectResult as $qualRow) {
+                                                echo "<li class='side-info__item'>";
+                                                echo "<img src='img/" . $qualRow['icon'] . "' сlass='side-info__image' alt=''>";
+                                                echo "<span class='side-info__span'>" . $qualRow['name'] . "</span>";
                                                 echo "</li>";
                                             }
                                             ?>
                                         </ul>
-                                        <a href="#" class="achievements__showmore">Показать всё</a>
                                     </div>
-                                </div>
 
-                                <div class="side-info__info-block info-block">
-                                    <div class="info-block__name">Название: <?php echo $gameIdRow['game_name'] ?></div>
+                                    <div class="side-info__language language">
+                                        <div class="language__label">Языки:</div>
+                                        <table class="language__table">
+                                            <thead class="language__thead">
+                                                <tr class="language__trow">
+                                                    <th class="language__theadrow"><br></th>
+                                                    <th class="language__theadrow">Интерфейс</th>
+                                                    <th class="language__theadrow">Озвучка</th>
+                                                    <th class="language__theadrow">Субтитры</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="language__tbody">
+                                                <?php
+                                                foreach ($languageSelectResult as $languageRow) {
+                                                    echo "<tr class='language__trow'>";
+                                                    echo "<td class='language__tdfirst'>" . $languageRow['name'] . "</td>";
 
-                                    <div class="info-block__genres genres">
-                                        <span class="genres__span">Жанр: </span>
-                                        <ul class="genres__list">
+                                                    $interfacemark = $languageRow['interface'] == true ? "✔" : "&nbsp;";
+                                                    echo "<td class='language__td'>" . $interfacemark . "</td>";
+
+                                                    $voicemark = $languageRow['voice'] == true ? "✔" : "&nbsp;";
+                                                    echo "<td class='language__td'>" . $voicemark . "</td>";
+
+                                                    $subtitlemark = $languageRow['subtitles'] == true ? "✔" : "&nbsp;";
+                                                    echo "<td class='language__td'>" . $subtitlemark . "</td>";
+                                                    echo "</tr>";
+                                                }
+                                                ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <div class="side-info__achievements achievements">
+                                        <div class="achievements_label">Достижения: </div>
+                                        <p class="header__label"></p>
+                                        <div class="achiements__wrapper">
+                                            <ul class="achievements__list">
+                                                <?php
+                                                foreach ($achievementSelectResult as $achievementRow) {
+                                                    echo "<li class='achievements__item'>";
+                                                    echo "<img src='img/" . $achievementRow['picture'] . "' alt='' class='achievements__image'>";
+                                                    echo "</li>";
+                                                }
+                                                ?>
+                                            </ul>
+                                            <a href="#" class="achievements__showmore">Показать всё</a>
+                                        </div>
+                                    </div>
+
+                                    <div class="side-info__info-block info-block">
+                                        <div class="info-block__name">Название: <?php echo $gameIdRow['game_name'] ?></div>
+
+                                        <div class="info-block__genres genres">
+                                            <span class="genres__span">Жанр: </span>
+                                            <ul class="genres__list">
+                                                <?php
+                                                foreach ($genreSelectResult as $genreRow) {
+                                                    echo "<li class='genres__item'>" . $genreRow['name'] . " " . "</li>";
+                                                }
+                                                ?>
+                                            </ul>
+                                        </div>
+
+                                        <div class="info-block__developer developer">
+                                            <span class="developer__span">Разработчик: </span>
                                             <?php
-                                            foreach ($genreSelectResult as $genreRow) {
-                                                echo "<li class='genres__item'>" . $genreRow['name'] . " " . "</li>";
+                                            foreach ($developerSelectResult as $developerRow) {
+                                                if ($developerRow['id_game'] == $gameIdRow['id']) {
+                                                    echo "<a href='developer.php?devid=" . $developerRow['id'] . "'>" . $developerRow['name']  . "</a>";
+                                                }
                                             }
                                             ?>
-                                        </ul>
-                                    </div>
+                                        </div>
 
-                                    <div class="info-block__developer developer">
-                                        <span class="developer__span">Разработчик: </span>
-                                        <?php
-                                        foreach ($developerSelectResult as $developerRow) {
-                                            if ($developerRow['id_game'] == $gameIdRow['id']) {
-                                                echo "<a href='developer.php?devid=" . $developerRow['id'] . "'>" . $developerRow['name']  . "</a>";
+                                        <div class="info-block__publisher publisher">
+                                            <span class="publisher__span">Издатель: </span>
+                                            <?php
+                                            foreach ($publisherSelectResult as $publisherRow) {
+                                                if ($publisherRow['id_game'] == $gameIdRow['id']) {
+                                                    echo "<a href='publisher.php?devid=" . $publisherRow['id'] . "'>" . $publisherRow['name']  . "</a>";
+                                                }
                                             }
-                                        }
-                                        ?>
-                                    </div>
+                                            ?>
+                                        </div>
 
-                                    <div class="info-block__publisher publisher">
-                                        <span class="publisher__span">Издатель: </span>
-                                        <?php
-                                        foreach ($publisherSelectResult as $publisherRow) {
-                                            if ($publisherRow['id_game'] == $gameIdRow['id']) {
-                                                echo "<a href='publisher.php?devid=" . $publisherRow['id'] . "'>" . $publisherRow['name']  . "</a>";
-                                            }
-                                        }
-                                        ?>
-                                    </div>
-
-                                    <div class="info-block__release-date release-date">
-                                        <span class="release-date__span">Дата выхода: </span>
-                                        <?php echo $dateReplace ?>
+                                        <div class="info-block__release-date release-date">
+                                            <span class="release-date__span">Дата выхода: </span>
+                                            <?php echo $dateReplace ?>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+
+                        <?php
+
+                    }
+
+                        ?>
             </div>
-        <?php
-
-                }
-
-        ?>
-        </div>
         </section>
     </main>
     <footer class="footer">
