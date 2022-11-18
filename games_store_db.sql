@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Ноя 11 2022 г., 02:46
+-- Время создания: Ноя 18 2022 г., 03:12
 -- Версия сервера: 8.0.29
 -- Версия PHP: 8.1.5
 
@@ -82,32 +82,6 @@ INSERT INTO `categories` (`id`, `name`) VALUES
 (1, 'Игры'),
 (2, 'Демо'),
 (3, 'Дополнительный контент');
-
--- --------------------------------------------------------
-
---
--- Структура таблицы `comments`
---
-
-CREATE TABLE `comments` (
-  `id` int NOT NULL,
-  `id_user` int NOT NULL,
-  `id_profile` int NOT NULL,
-  `text` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
--- --------------------------------------------------------
-
---
--- Структура таблицы `crit`
---
-
-CREATE TABLE `crit` (
-  `id` int NOT NULL,
-  `text` varchar(255) NOT NULL,
-  `id_game` int NOT NULL,
-  `press_name` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -208,18 +182,6 @@ INSERT INTO `edition_content` (`id`, `id_edition`, `id_dlc`) VALUES
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `friends`
---
-
-CREATE TABLE `friends` (
-  `id` int NOT NULL,
-  `id_user` int NOT NULL,
-  `id_profile` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
--- --------------------------------------------------------
-
---
 -- Структура таблицы `game_achievements`
 --
 
@@ -284,26 +246,8 @@ INSERT INTO `game_genre` (`id`, `id_game`, `id_genre`) VALUES
 (4, 4, 9),
 (5, 4, 6),
 (6, 4, 10),
-(7, 1, 10);
-
--- --------------------------------------------------------
-
---
--- Структура таблицы `game_genre1`
---
-
-CREATE TABLE `game_genre1` (
-  `id` int NOT NULL,
-  `id_game` varchar(255) NOT NULL,
-  `id_genre` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Дамп данных таблицы `game_genre1`
---
-
-INSERT INTO `game_genre1` (`id`, `id_game`, `id_genre`) VALUES
-(1, '4', '9');
+(7, 1, 10),
+(9, 3, 4);
 
 -- --------------------------------------------------------
 
@@ -572,18 +516,6 @@ INSERT INTO `library` (`id`, `id_user`, `id_game`) VALUES
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `ordr`
---
-
-CREATE TABLE `ordr` (
-  `id` int NOT NULL,
-  `id_games` int NOT NULL,
-  `id_user` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
--- --------------------------------------------------------
-
---
 -- Структура таблицы `platforms`
 --
 
@@ -631,20 +563,6 @@ INSERT INTO `product` (`id`, `id_cathegory`, `poster`, `price`, `release_date`, 
 (5, 3, 'rimworld_biotech_poster.jpg', '595', '2022-11-01', 'Дополнение Biotech для Rimworld', 'Raise a family with children, experiment with genetic modifications, and command your own mechanoid army and workforce.\r\nRaise a family\r\nHave children and raise a family through natural or artificial means. Colonists could give birth or use a surrogate mother, take in a band of orphans, and even gestate embryos in machines. Play matchmaker with your colonists, or let their relationships grow organically. Prepare for labor and childcare, and get ready to welcome your little ones to the world!\r\nCare for your babies\r\nKeep your baby’s tummy full with lots of good eats, decorate an adorable nursery for playtime, and build a comfortable crib for a good night’s rest. Happy babies make for happy colonists.\r\nWatch over your children\r\nGive your children a rich and happy childhood by balancing their life between work and play. Help kids fulfill their learning desires by letting them explore nature, chat on the radio, spend time in class, daydream, scribble, and watch the grown-ups at work. Choose your children’s traits and passions at certain ages - the healthier their upbringing, the greater the variety of traits and passions to pick from.\r\n\r\nGrowth vats offer a cheaper alternative to normal child raising. Use vats to accelerate your children’s development to quickly churn out dumb soldiers and simple workers.\r\nGenetic modification\r\nCreate your own genetically-modified colonists known as xenohumans. Curate a collection of exotic genes by purchasing them from traders, accepting them as quest rewards, or extracting them from your menagerie of xenohuman prisoners. Recombine genes to make bizarre and advantageous mixes of traits, and build your colony of xenohumans!\r\nMeet new xenohuman factions\r\nEngage with new factions consisting of exotic xenohumans. Xenohuman factions include hardy pig-people, poison-drinking waster pirates, unforgiving neanderthal hunters, and more. Factions feel different from each other - how you handle a group of frenzied fire-breathers will be different from stopping the wolf escorts sent by fur-bodied riflemen. Some xenohuman cultures are friendly, while others are hostile or prefer to be left alone.\r\nJoin the immortal blood-drinkers\r\nSanguophages pass among humans undetected while concealing superhuman powers and working to satiate their genetic need for blood. Powered by superintelligent nano-machines, sanguophages are ageless, immortal, preternaturally beautiful, and capable of launching deadly spines and healing allies. You may join their cult if deemed worthy, or force them to grant you immortality.\r\nBuild and control mechanoids\r\nMake your colonist into a mechanitor - a person with a brain implant that lets them psychically command semi-living machines called mechanoids. Create mechanoids by growing them inside high-tech gestator tanks and command a wide variety of new combat and labor mechanoids.\r\n\r\nBuild a mechanoid army and experiment with a variety of battle tactics using swarms of cheap, disposable gunners, tanky defenders, shield-projecting snipers, flame-spitters, and more. At home, make mechanoid workers that can manufacture goods, rescue and tend to colonists, build and repair structures, sow and harvest crops, haul stuff, and other tasks. Grow your swarm and upgrade your mechanitor into an unstoppable mechlord.\r\nChallenge super-mechanoid bosses\r\nCall down three new super-mechanoid bosses to fight. Defeat these super-deadly enemies and their escorts and harvest special mechanoid chips from their smoking husks to advance your mechanoid technology.\r\nAdapt to pollution\r\nYour mechanoid infrastructure produces toxic wastepacks. Left unfrozen, waste deteriorates and leaks pollutants into the environment. Pollution poisons your colonists, mutates plants and animals, blocks the sunlight, and attracts giant hostile insects. Manage your waste, or embrace pollution with new gear, detoxifier organs, and genetic modifications.', 'rimworld_biotech_capsule_120.jpg', 'RimWorld - Biotech\r\n'),
 (6, 3, 'dayz_livonia_poster.jpg', '349', '2019-12-03', ' ', 'Добро пожаловать в Ливонию! Ливония, изобилующая дикой природой, руинами и скрытыми локациями, раскинулась на территории 163 км2, состоящей из полей, лесов и таинственных пейзажей — это дает уникальный новый опыт, который понравится как новичкам, так и ветеранам DayZ.\r\n\r\nИсследуйте земли. Захватывающее разнообразие неизведанных локаций ждет смелых и предприимчивых. Исследуйте мрачные болота, заброшенные охотничьи хижины, лесопилки и вырубленные леса, а также огромные карьеры с оставшимися запасами взрывчатки.\r\n\r\nДобывайте пропитание. Съестные припасы в Ливонии скудны. Так что если вы хотите выжить, вам придется научиться охотиться, ловить рыбу и собирать кормовые растения в условиях дикой природы, не прощающей ошибок. К счастью, сейчас земля кажется более живой, чем до апокалипсиса.\r\n\r\nОткройте секрет. Отправляйтесь на юг и найдите скрытый вход, ведущий в таинственный подземный комплекс. Позовите на помощь друга, когда будете искать способ проникнуть вовнутрь. И не забудьте взять с собой припасы, особенно фонарик. Иначе вы можете заблудиться в темном лабиринте коридоров, ожидающих каждого, кто в них войдет.', 'dayz_livonia_capsule_sm_120.jpg', 'DayZ Livonia\r\n'),
 (7, 1, 'projectzomboid_poster.jpg', '435', '2013-11-08', 'Project Zomboid is the ultimate in zombie survival. Alone or in MP: you loot, build, craft, fight, farm and fish in a struggle to survive. A hardcore RPG skillset, a vast map, massively customisable sandbox and a cute tutorial raccoon await the unwary. So how will you die? All it takes is a bite..\r\n', 'Project Zomboid is an open-ended zombie-infested sandbox. It asks one simple question – how will you die? \r\n\r\nIn the towns of Muldraugh and West Point, survivors must loot houses, build defences and do their utmost to delay their inevitable death day by day. No help is coming – their continued survival relies on their own cunning, luck and ability to evade a relentless horde.\r\nCurrent Features\r\nHardcore Sandbox Zombie Survival Game with a focus on realistic survival.\r\nOnline multiplayer survival with persistent player run servers.\r\nLocal 4 player split-screen co-op\r\nHundreds of zombies with swarm mechanics and in-depth visual and hearing systems.\r\nFull line of sight system and real-time lighting, sound and visibility mechanics. Hide in the shadows, keep quiet and keep the lights off at night, or at least hang sheets over the windows.\r\nVast and growing map (loosely based on a real world location) for you to explore, loot and set up your fortress. Check out Blindcoder’s map project: https://map.projectzomboid.com/\r\nVehicles with full physics and deep and realistic gameplay mechanics.\r\nUse tools and items to craft weapons, barricade and cook. You can even build zombie proof forts by chopping trees, sawing wood and scavenging supplies.\r\nDeal with depression, boredom, hunger, thirst and illness while trying to survive.\r\nDay turns to night. The electricity falters. Hordes migrate. Winter draws in. Nature gradually starts to take over.\r\nFarming, fishing, carpentry, cooking, trapping, character customization, skills and perks that develop based on what you do in-game.\r\nProper zombies that don’t run. (Unless you tell them to in the sandbox menu).\r\nA ton of amazing atmospheric music tracks by the prodigy that is Zach Beever.\r\nImaginative Challenge scenarios and instant action ‘Last Stand’ mode, on top of regular Sandbox and Survival \r\nFull, open and powerful Lua modding support.\r\nXbox Controller Gamepad support on Windows. [Others pads can be set up manually. Gamepad support not currently available on Mac]\r\n\r\nWe’re a small team at the moment, but we’re also committed to providing the following:\r\nplanned Features:\r\nThe return of our PZ Stories mode that also serves as first ever tutorial actively trying to kill you at every turn. Kate and Baldspot return!\r\nIn-depth and varied NPC encounters driven in a persistent world, powered by a metagame system that turns each play-through into your very own zombie survival movie with emergent narrative gameplay.\r\nConstant expansion of the countryside and cities around Muldraugh and West Point\r\nFull wilderness survival systems, animals and hunting for food.\r\nMore items, crafting recipes, weapons and gameplay systems.\r\nSteam Workshop and Achievements support', 'projectzomboid_capsule_184x69.jpg', 'Project Zomboid');
-
--- --------------------------------------------------------
-
---
--- Структура таблицы `profile`
---
-
-CREATE TABLE `profile` (
-  `id` int NOT NULL,
-  `id_user` int NOT NULL,
-  `nickname` varchar(255) NOT NULL,
-  `profile_descr` varchar(255) NOT NULL,
-  `avatar` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -732,6 +650,13 @@ CREATE TABLE `reviews` (
   `text` varchar(255) NOT NULL,
   `grade` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Дамп данных таблицы `reviews`
+--
+
+INSERT INTO `reviews` (`id`, `id_user`, `id_game`, `text`, `grade`) VALUES
+(5, 1, 4, 'Не играйте!!!', '3');
 
 -- --------------------------------------------------------
 
@@ -879,21 +804,6 @@ ALTER TABLE `categories`
   ADD PRIMARY KEY (`id`);
 
 --
--- Индексы таблицы `comments`
---
-ALTER TABLE `comments`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_profile` (`id_profile`),
-  ADD KEY `id_user` (`id_user`);
-
---
--- Индексы таблицы `crit`
---
-ALTER TABLE `crit`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_game` (`id_game`);
-
---
 -- Индексы таблицы `developer`
 --
 ALTER TABLE `developer`
@@ -931,14 +841,6 @@ ALTER TABLE `edition_content`
   ADD KEY `id_edition` (`id_edition`);
 
 --
--- Индексы таблицы `friends`
---
-ALTER TABLE `friends`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `friends_ibfk_1` (`id_profile`),
-  ADD KEY `id_user` (`id_user`);
-
---
 -- Индексы таблицы `game_achievements`
 --
 ALTER TABLE `game_achievements`
@@ -960,12 +862,6 @@ ALTER TABLE `game_genre`
   ADD PRIMARY KEY (`id`),
   ADD KEY `game_genre_ibfk_1` (`id_game`),
   ADD KEY `id_genre` (`id_genre`);
-
---
--- Индексы таблицы `game_genre1`
---
-ALTER TABLE `game_genre1`
-  ADD PRIMARY KEY (`id`);
 
 --
 -- Индексы таблицы `game_labels`
@@ -1050,14 +946,6 @@ ALTER TABLE `library`
   ADD KEY `id_user` (`id_user`);
 
 --
--- Индексы таблицы `ordr`
---
-ALTER TABLE `ordr`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_games` (`id_games`),
-  ADD KEY `id_user` (`id_user`);
-
---
 -- Индексы таблицы `platforms`
 --
 ALTER TABLE `platforms`
@@ -1069,13 +957,6 @@ ALTER TABLE `platforms`
 ALTER TABLE `product`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_cathegory` (`id_cathegory`);
-
---
--- Индексы таблицы `profile`
---
-ALTER TABLE `profile`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_user` (`id_user`);
 
 --
 -- Индексы таблицы `promos`
@@ -1176,18 +1057,6 @@ ALTER TABLE `categories`
   MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT для таблицы `comments`
---
-ALTER TABLE `comments`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT для таблицы `crit`
---
-ALTER TABLE `crit`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT для таблицы `developer`
 --
 ALTER TABLE `developer`
@@ -1218,12 +1087,6 @@ ALTER TABLE `edition_content`
   MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT для таблицы `friends`
---
-ALTER TABLE `friends`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT для таблицы `game_achievements`
 --
 ALTER TABLE `game_achievements`
@@ -1239,13 +1102,7 @@ ALTER TABLE `game_gallery`
 -- AUTO_INCREMENT для таблицы `game_genre`
 --
 ALTER TABLE `game_genre`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
-
---
--- AUTO_INCREMENT для таблицы `game_genre1`
---
-ALTER TABLE `game_genre1`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT для таблицы `game_labels`
@@ -1314,12 +1171,6 @@ ALTER TABLE `library`
   MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT для таблицы `ordr`
---
-ALTER TABLE `ordr`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT для таблицы `platforms`
 --
 ALTER TABLE `platforms`
@@ -1330,12 +1181,6 @@ ALTER TABLE `platforms`
 --
 ALTER TABLE `product`
   MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
-
---
--- AUTO_INCREMENT для таблицы `profile`
---
-ALTER TABLE `profile`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT для таблицы `promos`
@@ -1365,7 +1210,7 @@ ALTER TABLE `qualities`
 -- AUTO_INCREMENT для таблицы `reviews`
 --
 ALTER TABLE `reviews`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT для таблицы `series`
@@ -1415,19 +1260,6 @@ ALTER TABLE `bucket`
   ADD CONSTRAINT `bucket_ibfk_2` FOREIGN KEY (`id_game`) REFERENCES `product` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
 
 --
--- Ограничения внешнего ключа таблицы `comments`
---
-ALTER TABLE `comments`
-  ADD CONSTRAINT `comments_ibfk_1` FOREIGN KEY (`id_profile`) REFERENCES `profile` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT,
-  ADD CONSTRAINT `comments_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
-
---
--- Ограничения внешнего ключа таблицы `crit`
---
-ALTER TABLE `crit`
-  ADD CONSTRAINT `crit_ibfk_1` FOREIGN KEY (`id_game`) REFERENCES `product` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
-
---
 -- Ограничения внешнего ключа таблицы `developer_games`
 --
 ALTER TABLE `developer_games`
@@ -1453,13 +1285,6 @@ ALTER TABLE `editions`
 ALTER TABLE `edition_content`
   ADD CONSTRAINT `edition_content_ibfk_1` FOREIGN KEY (`id_dlc`) REFERENCES `product` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT,
   ADD CONSTRAINT `edition_content_ibfk_2` FOREIGN KEY (`id_edition`) REFERENCES `editions` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
-
---
--- Ограничения внешнего ключа таблицы `friends`
---
-ALTER TABLE `friends`
-  ADD CONSTRAINT `friends_ibfk_1` FOREIGN KEY (`id_profile`) REFERENCES `profile` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT,
-  ADD CONSTRAINT `friends_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
 
 --
 -- Ограничения внешнего ключа таблицы `game_achievements`
@@ -1538,23 +1363,10 @@ ALTER TABLE `library`
   ADD CONSTRAINT `library_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
 
 --
--- Ограничения внешнего ключа таблицы `ordr`
---
-ALTER TABLE `ordr`
-  ADD CONSTRAINT `ordr_ibfk_1` FOREIGN KEY (`id_games`) REFERENCES `product` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT,
-  ADD CONSTRAINT `ordr_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
-
---
 -- Ограничения внешнего ключа таблицы `product`
 --
 ALTER TABLE `product`
   ADD CONSTRAINT `product_ibfk_1` FOREIGN KEY (`id_cathegory`) REFERENCES `categories` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
-
---
--- Ограничения внешнего ключа таблицы `profile`
---
-ALTER TABLE `profile`
-  ADD CONSTRAINT `profile_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
 
 --
 -- Ограничения внешнего ключа таблицы `publisher_games`
